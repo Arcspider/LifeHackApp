@@ -1,5 +1,6 @@
 package com.example.soren.lifehackapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView txtTipTitle, txtTipDesc;
     Button btnRandom, btnCategories;
+    private final static int GET_NAME = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             DatabaseHelper db = new DatabaseHelper(this);
             db.addTip();
             txtTipTitle
+        }
+        if(view == btnCategories){
+            Intent i;
+            i = new Intent(this,ListActivity.class);
+            this.startActivityForResult(i,GET_NAME);
         }
     }
 }

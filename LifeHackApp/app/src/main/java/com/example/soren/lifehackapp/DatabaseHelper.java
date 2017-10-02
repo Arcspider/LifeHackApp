@@ -2,6 +2,7 @@ package com.example.soren.lifehackapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -21,8 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS Tips;");
-        db.execSQL("CREATE TABLE Tips (id INTEGER PRIMARY KEY AUTOINCREMENT, tipName TEXT NOT NULL," +
-                "tipImg, tipCategory, tipDescription TEXT NOT NULL");
+        db.execSQL("CREATE TABLE Tips (id INTEGER PRIMARY KEY AUTOINCREMENT, tipName TEXT NOT NULL, tipImg TXT NOT NULL, tipCategory INTEGER, tipDescription TEXT NOT NULL;");
 
     }
 
@@ -35,7 +35,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("tipName,tipName");
+        values.put("tipImg");
+        values.put("tipDescription");
         db.insert("Tips",null,values);
         db.close();
+    }
+    public Cursor getAlle(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT tipName FROM Tips", null);
+        return data;
     }
 }
