@@ -23,13 +23,13 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         ListView listView = (ListView)findViewById(R.id.listView);
-        listView.setOnClickListener(this);
+        listView.setOnItemClickListener(this);
         db = new DatabaseHelper(this);
         ArrayList<String> tipliste = new ArrayList<>();
         ListAdapter listadapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,tipliste);
         listView.setAdapter(listadapter);
 
-        Cursor data = db.getAlle();
+        Cursor data = db.getAll();
         if(data.getCount()==0){
             Toast.makeText(ListActivity.this, "Ingen data", Toast.LENGTH_SHORT).show();
         }else{

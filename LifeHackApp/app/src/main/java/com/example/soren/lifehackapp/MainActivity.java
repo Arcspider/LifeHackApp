@@ -1,17 +1,21 @@
 package com.example.soren.lifehackapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView txtTipTitle, txtTipDesc;
     Button btnRandom, btnCategories;
+    ImageView imgMain;
     private final static int GET_NAME = 1;
 
     @Override
@@ -31,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view == btnRandom){
             DatabaseHelper db = new DatabaseHelper(this);
-            db.addTip();
-            txtTipTitle
+            String selectQuery = "SELECT ID FROM Tips ORDER BY RANDOM() LIMIT 1";
+            SQLiteDatabase getDB = db.getDB();
+            Cursor cursor = getDB.rawQuery(selectQuery, null);
         }
         if(view == btnCategories){
             Intent i;
