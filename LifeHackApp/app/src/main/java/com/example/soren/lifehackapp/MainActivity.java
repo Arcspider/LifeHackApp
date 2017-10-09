@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView txtTipTitle, txtTipDesc;
@@ -28,6 +30,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnRandom.setOnClickListener(this);
         btnCategories = (Button) findViewById(R.id.btnCat);
         btnCategories.setOnClickListener(this);
+        DatabaseHelper db;
+        db = new DatabaseHelper(this);
+        try{
+            db.createDataBase();
+        } catch(IOException e){
+            throw new Error("Kunne ikke oprette database: "+e);
+        }
+
 
     }
 

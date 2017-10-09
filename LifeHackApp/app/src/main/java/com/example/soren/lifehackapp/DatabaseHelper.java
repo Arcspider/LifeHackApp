@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAll(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor data = db.rawQuery("SELECT tipName FROM Tips", null);
+        Cursor data = db.rawQuery("SELECT * FROM Tips", null);
         return data;
     }
 
