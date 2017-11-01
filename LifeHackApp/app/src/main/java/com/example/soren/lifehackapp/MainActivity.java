@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view == btnRandom){
             DatabaseHelper db = new DatabaseHelper(this);
-            String selectQuery = "SELECT ID FROM Tips ORDER BY RANDOM() LIMIT 1";
-            SQLiteDatabase getDB = db.getDB();
+            String selectQuery = "SELECT tipID FROM Tips ORDER BY RANDOM() LIMIT 1";
+            SQLiteDatabase getDB = db.getReadableDatabase();
             Cursor cursor = getDB.rawQuery(selectQuery, null);
         }
         if(view == btnCategories){

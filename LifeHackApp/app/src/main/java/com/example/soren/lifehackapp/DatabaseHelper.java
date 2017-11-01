@@ -8,20 +8,23 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by soren on 27-09-2017.
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteAssetHelper {
 
-    private static int DB_VERSION = 1;
+    private static final int DB_VERSION = 1;
     private static String TAG = "DataBaseHelper";
-    private static String DB_PATH = "/data/data/com.example.soren.lifehackapp";
+    private static String DB_PATH = "/data/data/com.example.soren.lifehackapp/databases/";
     private static final String DB_NAME = "LifeHackApp.db";
     private SQLiteDatabase mDataBase;
     private final Context dbContext;
@@ -32,14 +35,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.dbContext = context;
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {   //Bruges ikke
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {   //Bruges ikke
-
-    }
 
     private boolean checkDatabase(){
         SQLiteDatabase checkDB = null;
@@ -49,7 +44,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch(SQLiteException e){
             System.out.println("Databasen er ikke oprettet: " + e);
         }
-        return checkDB != null;
+        if (checkDB != null){
+            checkDB.close();
+        }
+        return checkDB != null ? true : false;
     }
 
     private  void copyDataBase() throws IOException{
@@ -72,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (dbExist){
             System.out.println("Brugere eksisterende database");
         } else {
-            this.getReadableDatabase();
+            this.getWritableDatabase();
             try{
                 copyDataBase();
             } catch (IOException e){
@@ -81,13 +79,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAll(){
+    public Cursor getAllTips(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM Tips", null);
         return data;
     }
 
-    public SQLiteDatabase getDB(){
-        return this.getWritableDatabase();
+    public Cursor singletip(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Tips> gettips = new ArrayList<Tips>();
+        Cursor result = db.rawQuery("SELECT * FROM Tips WHERE tipID=1", null);
+        return result;
     }
+
+
 }
