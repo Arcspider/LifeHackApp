@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by soren on 27-09-2017.
  */
 
-public class DatabaseHelper extends SQLiteAssetHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 1;
     private static String TAG = "DataBaseHelper";
@@ -42,12 +42,12 @@ public class DatabaseHelper extends SQLiteAssetHelper {
             String dbFullPath = DB_PATH + DB_NAME;
             checkDB = SQLiteDatabase.openDatabase(dbFullPath, null, SQLiteDatabase.OPEN_READONLY);
         } catch(SQLiteException e){
-            System.out.println("Databasen er ikke oprettet: " + e);
+            //System.out.println("Databasen er ikke oprettet: " + e);
         }
         if (checkDB != null){
             checkDB.close();
         }
-        return checkDB != null ? true : false;
+        return checkDB != null;
     }
 
     private  void copyDataBase() throws IOException{
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
         myOutput.flush();
         myOutput.close();
         myInput.close();
-        System.out.println("Databasen er kopieret!");
+        //System.out.println("Databasen er kopieret!");
     }
 
     public void createDataBase() throws IOException{
@@ -74,7 +74,7 @@ public class DatabaseHelper extends SQLiteAssetHelper {
             try{
                 copyDataBase();
             } catch (IOException e){
-                throw new Error("Fejl i kopiering af databasen!");
+                //throw new Error("Fejl i kopiering af databasen!");
             }
         }
     }
@@ -82,6 +82,12 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     public Cursor getAllTips(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor data = db.rawQuery("SELECT * FROM Tips", null);
+        return data;
+    }
+
+    public  Cursor getAllCategories(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM Category", null);
         return data;
     }
 
@@ -93,4 +99,13 @@ public class DatabaseHelper extends SQLiteAssetHelper {
     }
 
 
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+
+    }
 }
