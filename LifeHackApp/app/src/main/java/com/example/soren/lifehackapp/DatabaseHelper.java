@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static String TAG = "DataBaseHelper";
     private static String DB_PATH = "/data/data/com.example.soren.lifehackapp/databases/";
     private static final String DB_NAME = "LifeHackApp.db";
